@@ -1,0 +1,7 @@
+{
+  "name": "colabor-graphs",
+  "version": "1.0.0",
+  "description": "Displaying things of colaborart",
+  "main": "public/index.html",
+  "license": "MIT"
+}

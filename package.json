@@ -3,5 +3,14 @@
   "version": "1.0.0",
   "description": "Displaying things of colaborart",
   "main": "public/index.html",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  },
+  "scripts": {
+    "dev": "http-server public -c-1"
+  },
+  "dependencies": {
+    "vis": "^4.20.0"
+  }
 }

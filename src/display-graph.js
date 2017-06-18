@@ -97,16 +97,49 @@ export default class DisplayGraph {
       }
     });
 
-    this.linkTasksTocategories(tasksNodes, categoriesNodes);
+    this.linkTasksToCategories(tasksNodes, categoriesNodes);
+    this.linkTasksToBooks(tasksNodes, booksNodes);
+    this.linkBooksToUsers(booksNodes, usersNodes);
   }
 
-  linkTasksTocategories(tasksNodes, categoriesNodes) {
+  linkTasksToCategories(tasksNodes, categoriesNodes) {
     categoriesNodes.forEach(categoryNode => {
       tasksNodes.forEach(taskNode => {
-        if (taskNode.category_id == categoryNode.category_id) {
+        if (taskNode.category_id === categoryNode.category_id) {
           let edge = {
             from: taskNode.id,
             to: categoryNode.id
+          };
+
+          this.edges.push(edge);
+        }
+      });
+    });
+  }
+
+  linkTasksToBooks(tasksNodes, booksNodes) {
+    booksNodes.forEach(bookNode => {
+      tasksNodes.forEach(taskNode => {
+        if (taskNode.book_id === bookNode.book_id) {
+          let edge = {
+            from: taskNode.id,
+            to: bookNode.id
+          };
+
+          this.edges.push(edge);
+        }
+      });
+    });
+  }
+
+  linkBooksToUsers(booksNodes, usersNodes) {
+    booksNodes.forEach(bookNode => {
+      usersNodes.forEach(userNode => {
+        //console.log(`${bookNode.user_id} === ${userNode.user_id}`, bookNode);
+        if (bookNode.user_id === userNode.user_id) {
+          let edge = {
+            from: bookNode.id,
+            to: userNode.id
           };
 
           this.edges.push(edge);

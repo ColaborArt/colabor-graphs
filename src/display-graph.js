@@ -11,6 +11,26 @@ export default class DisplayGraph {
   }
 
   prepareData(data) {
+    this.makeNodes(data);
+    this.makeEdges();
+    /*
+    this.nodes = [
+      {id: 1, label: "a", group: "A1"},
+      {id: 2, label: "b", group: "B1"},
+      {id: 3, label: "c", group: "C1"},
+      {id: 4, label: "d", group: "D1"}
+    ];
+
+    this.edges = [
+      {from: 1, to: 2},
+      {from: 2, to: 3},
+      {from: 3, to: 4},
+      {from: 4, to: 1}
+    ]
+    */
+  }
+
+  makeNodes(data) {
     const idGen = UIdGenerator();
 
     data.books.forEach(book => {
@@ -59,21 +79,40 @@ export default class DisplayGraph {
 
       this.nodes.push(node);
     });
-    /*
-    this.nodes = [
-      {id: 1, label: "a", group: "A1"},
-      {id: 2, label: "b", group: "B1"},
-      {id: 3, label: "c", group: "C1"},
-      {id: 4, label: "d", group: "D1"}
-    ];
+  }
 
-    this.edges = [
-      {from: 1, to: 2},
-      {from: 2, to: 3},
-      {from: 3, to: 4},
-      {from: 4, to: 1}
-    ]
-    */
+  makeEdges() {
+    let categoriesNodes = [];
+    let tasksNodes = [];
+    let usersNodes = [];
+    let booksNodes = [];
+
+    this.nodes.forEach(node => {
+      switch (node.group) {
+        case "categories": categoriesNodes.push(node); break;
+        case "tasks": tasksNodes.push(node); break;
+        case "users": usersNodes.push(node); break;
+        case "books": booksNodes.push(node); break;
+        default: console.log("Undefined group on makeEdges: " + node.group);
+      }
+    });
+
+    this.linkTasksTocategories(tasksNodes, categoriesNodes);
+  }
+
+  linkTasksTocategories(tasksNodes, categoriesNodes) {
+    categoriesNodes.forEach(categoryNode => {
+      tasksNodes.forEach(taskNode => {
+        if (taskNode.category_id == categoryNode.category_id) {
+          let edge = {
+            from: taskNode.id,
+            to: categoryNode.id
+          };
+
+          this.edges.push(edge);
+        }
+      });
+    });
   }
 
   displayData(vis) {

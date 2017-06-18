@@ -1,33 +1,33 @@
-var ColaborGraphs;
-ColaborGraphs = ColaborGraphs || {};
+export default class DisplayGraph {
+  constructor(vis, data) {
+    this.vis = vis;
+    this.nodes = [];
+    this.edges = [];
 
+    this.prepareData();
+    this.displayData();
+  }
 
-ColaborGraphs.DisplayGraph = (function() {
-  function prepareData() {
-    const nodes = [
+  prepareData() {
+    this.nodes = [
       {id: 1, label: "a", group: "A1"},
       {id: 2, label: "b", group: "B1"},
       {id: 3, label: "c", group: "C1"},
-      {id: 4, label: "d", group: "D1"},
+      {id: 4, label: "d", group: "D1"}
     ];
 
-    const edges = [
+    this.edges = [
       {from: 1, to: 2},
       {from: 2, to: 3},
       {from: 3, to: 4},
-      {from: 4, to: 1},
-    ];
-
-    displayData(nodes, edges);
+      {from: 4, to: 1}
+    ]
   }
 
-
-  function displayData (nodes, edges) {
-    const container = document.getElementById('mynetwork');
-
+  displayData() {
     const data = {
-        nodes: nodes,
-        edges: edges
+        nodes: this.nodes,
+        edges: this.edges
     };
 
     const options = {
@@ -45,11 +45,7 @@ ColaborGraphs.DisplayGraph = (function() {
       }
     };
 
-    const network = new vis.Network(container, data, options);
+    const container = document.getElementById('mynetwork');
+    const network = new this.vis.Network(container, data, options);
   }
-
-  return {
-    prepareData
-  }
-}) ();
-
+}

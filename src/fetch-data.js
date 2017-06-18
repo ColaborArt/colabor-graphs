@@ -1,93 +1,94 @@
-var ColaborGraphs;
-ColaborGraphs = ColaborGraphs || {};
+
+const BASE_URL = 'https://cadernos-api.herokuapp.com';
+
+const BOOKS_URL = `${BASE_URL}/books-all`;
+const USERS_URL = `${BASE_URL}/users-all`;
+const CATEGORIES_URL = `${BASE_URL}/categories-all`;
+const TASKS_URL = `${BASE_URL}/tasks-all`;
+const MEMBERSHIPS_URL = `${BASE_URL}/memberships-all`;
 
 
-ColaborGraphs.FetchData = (function() {
-  const BASE_URL = 'https://cadernos-api.herokuapp.com';
-  let books = [];
-  let users = [];
-  let tasks = [];
-  let categories = [];
-  let memberships = [];
+export default class FetchData {
+  constructor(dataColletedCallback) {
+    this.abortCallback = false;
+    this.dataCollected = {
+      books: false,
+      users: false,
+      tasks: false,
+      categories: false,
+      memberships: false
+    };
 
+    this.books = [];
+    this.users = [];
+    this.tasks = [];
+    this.categories = [];
+    this.memberships = [];
 
-  function fetchBooks() {
-    console.log("Fetch books");
-    fetch(`${BASE_URL}/books-all`)
+    this.getAllApiData();
+    this.verifyDataCollected(dataColletedCallback);
+  }
+
+  fetchData (url, callback) {
+    fetch(url)
       .then(r => r.json())
-      .then(b => {
-        books = b;
+      .then(data => {
+        callback(data);
       })
       .catch(e => {
-        console.error("Error while getting books");
+        console.error(`Error on: ${url}`);
         console.error(e);
+        this.abortCallback = true;
       });
   }
 
+  getAllApiData() {
+    this.fetchData(BOOKS_URL, (data) => {
+      this.books = data;
+      this.dataCollected.books = true;
+    });
 
-  function fetchUsers() {
-    console.log("Fetch users");
-    fetch(`${BASE_URL}/users-all`)
-      .then(r => r.json())
-      .then(u => {
-        users = u;
-      })
-      .catch(e => {
-        console.error("Error while getting users");
-        console.error(e);
-      });
+    this.fetchData(USERS_URL, (data) => {
+      this.users = data;
+      this.dataCollected.users = true;
+    });
+
+    this.fetchData(CATEGORIES_URL, (data) => {
+      this.categories = data;
+      this.dataCollected.categories = true;
+    });
+
+    this.fetchData(TASKS_URL, (data) => {
+      this.tasks = data;
+      this.dataCollected.tasks = true;
+    });
+
+    this.fetchData(MEMBERSHIPS_URL, (data) => {
+      this.memberships = data;
+      this.dataCollected.memberships = true;
+    });
   }
 
+  verifyDataCollected(callback) {
+    window.setTimeout(() => {
+      if (this.abortCallback) return;
 
-  function fetchCategories() {
-    console.log("Fetch categories");
-    fetch(`${BASE_URL}/categories-all`)
-      .then(r => r.json())
-      .then(c => {
-        categories = c;
-      })
-      .catch(e => {
-        console.error("Error while getting categories");
-        console.error(e);
-      });
+      if (this.dataCollected.books &&
+          this.dataCollected.users &&
+          this.dataCollected.tasks &&
+          this.dataCollected.categories &&
+          this.dataCollected.memberships
+      ) {
+        callback({
+          books: this.books,
+          users: this.users,
+          tasks: this.tasks,
+          categories: this.categories,
+          memberships: this.memberships
+        });
+      } else {
+        this.verifyDataCollected(callback);
+      }
+    }, 1000);
   }
-
-
-  function fetchTasks() {
-    console.log("Fetch tasks");
-    fetch(`${BASE_URL}/tasks-all`)
-      .then(r => r.json())
-      .then(t => {
-        tasks = t;
-      })
-      .catch(e => {
-        console.error("Error while getting tasks");
-        console.error(e);
-      });
-  }
-
-  function fetchMemberships() {
-    console.log("Fetch memberships");
-    fetch(`${BASE_URL}/memberships-all`)
-      .then(r => r.json())
-      .then(m => {
-        memberships = m;
-      })
-      .catch(e => {
-        console.error("Error while getting tasks");
-        console.error(e);
-      });
-  }
-
-
-  return {
-    fetchAll () {
-      fetchBooks();
-      fetchUsers();
-      fetchTasks();
-      fetchCategories();
-      fetchMemberships();
-   }
-  }
-}) ();
-
+}

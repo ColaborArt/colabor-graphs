@@ -4,6 +4,7 @@ ColaborGraphs = ColaborGraphs || {};
 ColaborGraphs.Main = (function() {
   function init() {
     ColaborGraphs.DisplayGraph.prepareData();
+    ColaborGraphs.FetchData.fetchAll();
   }
 
 

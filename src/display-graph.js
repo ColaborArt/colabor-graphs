@@ -1,5 +1,6 @@
 import UIdGenerator from './uid-generator';
 
+const BASE_URL = 'https://cadernos-api.herokuapp.com';
 
 export default class DisplayGraph {
   constructor(vis, data) {
@@ -13,21 +14,6 @@ export default class DisplayGraph {
   prepareData(data) {
     this.makeNodes(data);
     this.makeEdges();
-    /*
-    this.nodes = [
-      {id: 1, label: "a", group: "A1"},
-      {id: 2, label: "b", group: "B1"},
-      {id: 3, label: "c", group: "C1"},
-      {id: 4, label: "d", group: "D1"}
-    ];
-
-    this.edges = [
-      {from: 1, to: 2},
-      {from: 2, to: 3},
-      {from: 3, to: 4},
-      {from: 4, to: 1}
-    ]
-    */
   }
 
   makeNodes(data) {
@@ -39,7 +25,10 @@ export default class DisplayGraph {
         label: book.title,
         group: "books",
         book_id: book.id,
-        user_id: book.user_id
+        user_id: book.user_id,
+        color: "#FF5722",
+        shape: 'circularImage',
+        image: `${BASE_URL}${book.cover_thumb}`
       }
 
       this.nodes.push(node);
@@ -50,7 +39,8 @@ export default class DisplayGraph {
         id: idGen.next().value,
         label: user.name,
         group: "users",
-        user_id: user.id
+        user_id: user.id,
+        color: "#f1c40f"
       }
 
       this.nodes.push(node);
@@ -63,7 +53,8 @@ export default class DisplayGraph {
         group: "tasks",
         task_id: task.id,
         book_id: task.book_id,
-        category_id: task.category_id
+        category_id: task.category_id,
+        color: "#2ecc71"
       }
 
       this.nodes.push(node);
@@ -75,6 +66,7 @@ export default class DisplayGraph {
         label: category.name,
         group: "categories",
         category_id: category.id,
+        color: "#ecf0f1"
       }
 
       this.nodes.push(node);
@@ -135,7 +127,6 @@ export default class DisplayGraph {
   linkBooksToUsers(booksNodes, usersNodes) {
     booksNodes.forEach(bookNode => {
       usersNodes.forEach(userNode => {
-        //console.log(`${bookNode.user_id} === ${userNode.user_id}`, bookNode);
         if (bookNode.user_id === userNode.user_id) {
           let edge = {
             from: bookNode.id,
@@ -157,9 +148,9 @@ export default class DisplayGraph {
     const options = {
       nodes: {
         shape: 'dot',
-        size: 30,
+        size: 20,
         font: {
-          size: 32,
+          size: 14,
           color: '#ffffff'
         },
         borderWidth: 2

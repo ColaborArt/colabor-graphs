@@ -156,8 +156,35 @@ export default class DisplayGraph {
         borderWidth: 2
       },
       edges: {
-        width: 2
-      }
+        width: 1
+      },
+      // http://fontawesome.io/cheatsheet/
+      groups: {
+            users: {
+                shape: 'icon',
+                icon: {
+                    face: 'FontAwesome',
+                    code: '\uf007',
+                    color: "#f1c40f"
+                }
+            },
+            tasks: {
+              shape: 'icon',
+              icon: {
+                face: 'FontAwesome',
+                code: '\uf181',
+                color: "#2ecc71"
+              }
+            },
+            categories: {
+              shape: 'icon',
+              icon: {
+                face: 'FontAwesome',
+                code: '\uf0c1',
+                color: "#ecf0f1"
+              }
+            }
+        }
     };
 
     const container = document.getElementById('mynetwork');

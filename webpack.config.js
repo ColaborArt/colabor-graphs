@@ -29,7 +29,18 @@ module.exports = {
         loader:  'file-loader?name=[name].[ext]',
       },
       {
-        test: /\.(ttf|eot|svg|png|)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+       test: /\.(png|jpg|gif)$/,
+       use: [
+         {
+           loader: 'url-loader',
+           options: {
+             limit: 8192
+           }
+         }
+       ]
+     },
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
       },
       {

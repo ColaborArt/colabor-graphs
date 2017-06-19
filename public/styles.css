@@ -5,10 +5,55 @@ body {
 }
 
 #mynetwork {
-    width: 800px;
-    height: 600px;
+    width: 960px;
+    height: 560px;
     border: 1px solid #444444;
     background-color: #222222;
     position: relative;
     margin: 10px auto;
+}
+
+#legends {
+  margin: 0px auto;
+  display: table;
+}
+
+#legends ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+#legends  li {
+    float: left;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    line-height: 20px;
+}
+
+#legends li div {
+  position: relative;
+  float: right;
+  margin: 2px 0px 0px 5px;
+  width: 30px;
+  height: 15px;
+}
+
+#legends  #books-legend {
+  background-color: #FF5722
+}
+
+#legends #users-legend {
+  background-color: #f1c40f;
+}
+
+#legends #tasks-legend {
+  background-color: #2ecc71;
+}
+
+#legends #categories-legend {
+  background-color: #ecf0f1;
 }

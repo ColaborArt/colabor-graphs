@@ -1,4 +1,6 @@
 const path = require("path");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const PROD = JSON.parse(process.env.PROD || false);
 
 module.exports = {
   entry: {
@@ -33,7 +35,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env']
+          }
+        }
       }
     ]
   },
@@ -41,5 +48,9 @@ module.exports = {
   devServer: {
     inline: true,
     stats: { colors: true },
-  }
+  },
+
+  plugins: PROD ? [
+    new UglifyJSPlugin()
+  ] : []
 };

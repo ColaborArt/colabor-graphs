@@ -1,7 +1,11 @@
-export default function* UIdGenerator() {
-  let id = 0;
+let id = 0;
 
-  while (true) {
-    yield ++id;
+export default function UIdGenerator() {
+  return {
+    next() {
+      return {
+        value: ++id
+      }
+    }
   }
 }

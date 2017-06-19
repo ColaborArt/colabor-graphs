@@ -5,6 +5,7 @@
   "main": "public/index.html",
   "license": "MIT",
   "devDependencies": {
+    "add": "^2.0.6",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.2",
@@ -12,15 +13,18 @@
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
     "style-loader": "^0.18.2",
+    "uglify-js": "^3.0.18",
+    "uglifyjs-webpack-plugin": "^0.4.4",
     "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "yarn": "^0.24.5"
   },
   "dependencies": {
     "vis": "^4.20.0"
   },
   "scripts": {
-    "build": "webpack",
-    "client": "webpack-dev-server --port 8080",
+    "build": "export PROD=true && webpack",
+    "client": "export PROD=false && webpack-dev-server --port 8080",
     "start": "yarn run client"
   }
 }
